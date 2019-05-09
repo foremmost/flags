@@ -224,5 +224,6 @@ function Car(){
 let bmw = new Car(
     {
         fuel: 30,
+        volume: 3.0
     }
     );
