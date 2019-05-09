@@ -103,16 +103,17 @@ human['to_do_list'] = [
     }
 ];
 human['get_action'] = function(action){
-};
-human['get_work'] = function(id){
-};
-human['do_action'] = function (action) {
-    // action = Проснуться
-    let  work = filter( human['to_do_list'], function (elem) {
+    return  filter( human['to_do_list'], function (elem) {
         return elem.action == action;
     })[0];
-  //  let work = human['get_action'](action);
-
+};
+human['get_work'] = function(id){
+    return filter( human['to_do_list'], function (elem) {
+        return elem.id == id;
+    })[0];
+};
+human['do_action'] = function (action) {
+    let  work = human.get_action(action);
     if(work.length < 1) return;
     if(!work.parent) {
         if(confirm('Вы уверены, что хотите '+ work.action+'?')){
@@ -132,3 +133,96 @@ human['do_action'] = function (action) {
         work.complete = true;
     }
 };
+
+function  Work (params) {
+    this.id = params.id;
+    this.action = params.action;
+    this.time =  params.time;
+    this.complete = false,
+    this.parent ? params.parent : null;
+}
+
+function Human(params){
+    // this
+    this.name = params['name'];
+    this.age = params['age'];
+    this.to_do_list = [];
+    this.add_work = function (params) {
+        if(is_arr(params)){
+
+            return;
+        }
+        this.to_do_list.push(new Work(params));
+    };
+    this['show_notice'] = function(notice){
+        if(notice){
+            if(confirm(notice)){
+                work.complete = true;
+            }
+            return;
+        }
+        if(confirm(this.name+', Вы уверены, что хотите '+ work.action+'?')){
+            work.complete = true;
+        }
+    }
+    this['get_action'] = function(action){
+        return  filter( this['to_do_list'], function (elem) {
+            return elem.action == action;
+        })[0];
+    };
+    this['get_work'] = function(id){
+        return filter( this['to_do_list'], function (elem) {
+            return elem.id == id;
+        })[0];
+    };
+    this.do_work = function (action) {
+        let  work = this.get_action(action);
+        if(work.length < 1) return;
+        if(!work.parent) {
+            this.show_notice();
+            return;
+        }
+        let  parent = this.get_work(work.parent);
+        if(!parent.complete){
+            //   let parent = human['get_work'](work.parent);
+            console.error('Сначала надо сделать: '+ parent.action);
+        }
+        this.show_notice();
+    }
+    this.show_to_do_list = function () {
+        console.log(this.to_do_list);
+    }
+}
+let Anton = new Human({ name: 'Anton', age: 10 });
+Anton.add_work({
+    id: 1,
+    action: 'Встать'
+});
+Anton.add_work([
+    {
+    id: 1,
+    action: 'Встать'
+},    {
+        id: 2,
+        action: 'Сесть'
+    },    {
+        id: 2,
+        action: 'Лежать'
+    }
+
+
+]);
+
+function Car(){
+    // Свойства
+    // бензин
+    // Методы
+    // Заправить бак
+    // Завести двигатель
+    // Поехать
+}
+let bmw = new Car(
+    {
+        fuel: 30,
+    }
+    );
