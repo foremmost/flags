@@ -111,15 +111,24 @@ human['do_action'] = function (action) {
     let  work = filter( human['to_do_list'], function (elem) {
         return elem.action == action;
     })[0];
-    let work = human['get_action'](action);
+  //  let work = human['get_action'](action);
 
     if(work.length < 1) return;
-    if(!work.parent.complete){
-        let  parent = filter( human['to_do_list'], function (elem) {
-            return elem.id == work.parent;
-        })[0];
-        let parent = human['get_work'](work.parent);
-        console.error('Сначала надо сделать: '+ parent.action);
+    if(!work.parent) {
+        if(confirm('Вы уверены, что хотите '+ work.action+'?')){
+            work.complete = true;
+        }
+        return;
     }
 
+    let  parent = filter( human['to_do_list'], function (elem) {
+        return elem.id == work.parent;
+    })[0];
+    if(!parent.complete){
+     //   let parent = human['get_work'](work.parent);
+        console.error('Сначала надо сделать: '+ parent.action);
+    }
+    if(confirm('Вы уверены, что хотите '+ work.action+'?')){
+        work.complete = true;
+    }
 };
