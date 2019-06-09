@@ -65,9 +65,9 @@ function Fiction(){
 	//console.log(user_word);
 }
 
-//let game = new Fiction();
+let game = new Fiction();
 
-fetch('../en.json')
-  .then(function(response) {
-    	console.log(response)
-    });
+// fetch('../en.json')
+//   .then(function(response) {
+//     	console.log(response)
+//     });
